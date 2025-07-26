@@ -12,8 +12,6 @@ const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 async function getAccessToken() {
     const auth = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString("base64");
 
-    console.log('authNam', auth)
-
     const response = await axios({
         method: "post",
         url: `${PAYPAL_API}/v1/oauth2/token`,
@@ -23,8 +21,6 @@ async function getAccessToken() {
         },
         data: "grant_type=client_credentials",
     });
-
-    console.log('responseNam', response)
 
     return response.data.access_token;
 }
@@ -65,9 +61,6 @@ exports.createOrder = async (req, res) => {
         const approvalLink = order.links.find(
             (link) => link.rel === "approve"
         ).href;
-
-        console.log('orderNam', order);
-        console.log('approvalLinkNam', approvalLink)
 
         res.status(200).json({
             success: true,
